@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.infosys.china.mapper.StorageMapper">
+	<resultMap id="BaseResultMap" type="com.infosys.china.entity.Storage">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="total" property="total" jdbcType="INTEGER" />
+		<result column="used" property="used" jdbcType="INTEGER" />
+		<result column="residue" property="residue" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectById" resultType="com.infosys.china.entity.Storage">
+		select id, product_id, total,used,residue from t_storage
+		WHERE id = #{id}
+	</select>
+
+	<select id="findByProductId" resultType="com.infosys.china.entity.Storage">
+		select id, product_id productId, total,used,residue from t_storage
+		WHERE product_id = #{productId}
+	</select>
+
+	<update id="updateById">
+		update t_storage set total = #{total,jdbcType=INTEGER}
+		WHERE id = #{id}
+	</update>
+
+	<insert id="insert" parameterType="com.infosys.china.entity.Storage">
+		insert into t_storage (product_id, total,used,residue)
+		values (#{storage.productId}, #{storage.total}, #{storage.used}, #{storage.residue})
+	</insert>
+
+	<insert id="insertBatch" parameterType="com.infosys.china.entity.Storage">
+		insert into t_storage (product_id, total,used,residue)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.productId,jdbcType=VARCHAR}, #{item.total,jdbcType=INTEGER}, #{item.used,jdbcType=INTEGER}, #{item.residue,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+
+	<update id="updateBatch">
+		update t_storage set total = 100
+		WHERE id IN
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and product_id = #{productId,jdbcType=VARCHAR}
+	</update>
+</mapper>

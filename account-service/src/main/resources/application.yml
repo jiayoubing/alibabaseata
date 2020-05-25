@@ -1,0 +1,23 @@
+spring:
+  application:
+    ###服务的名称
+    name: account-service
+  #数据库连接信息
+  datasource:
+    url: jdbc:mysql://192.168.234.135:3306/seata_account?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE
+    username: root
+    password: jiayoubing
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        ###nacos注册地址
+        server-addr: 192.168.234.135:8848
+    alibaba:
+      seata:
+        tx-service-group: my_test_tx_group
+server:
+  port: 8100
+mybatis:
+  mapper-locations:
+  - classpath*:mapper/*Mapper.xml
